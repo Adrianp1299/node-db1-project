@@ -11,16 +11,19 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', md.chechAccountId, async (req, res, next) => {
+router.get('/:id', md.checkAccountId, (req, res, next) => {
   res.json(req.account)
 })
 
 router.post('/', 
-md.chechAccountPayload, 
+md.checkAccountPayload, 
 md.checkAccountNameUnique, 
 async (req, res, next) => {
   try {
-    const newAccount = await Account.create(req.body)
+    const newAccount = await Account.create({
+      name: req.body.name.trim(),
+      budget: req.body.budget,
+    })
     res.status(201).json(newAccount)
   } catch (err) {
     next(err)
@@ -30,11 +33,11 @@ async (req, res, next) => {
 
 router.put('/:id', 
 md.checkAccountId, 
-md.chechAccountPayload, 
-md.checkAccountNameUnique,
-(req, res, next) => {
+md.checkAccountPayload,
+async (req, res, next) => {
   try {
-
+    const updated = await Account.updateById(req.params.id, req.body)
+    res.json(updated)
   } catch (err) {
     next(err)
   }
