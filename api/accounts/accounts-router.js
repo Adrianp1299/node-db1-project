@@ -20,7 +20,7 @@ md.chechAccountPayload,
 md.checkAccountNameUnique, 
 (req, res, next) => {
   try {
-
+    
   } catch (err) {
     next(err)
   }
