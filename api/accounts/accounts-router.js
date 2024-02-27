@@ -28,7 +28,8 @@ async (req, res, next) => {
   // DO YOUR MAGIC
 })
 
-router.put('/:id', md.checkAccountId, 
+router.put('/:id', 
+md.checkAccountId, 
 md.chechAccountPayload, 
 md.checkAccountNameUnique,
 (req, res, next) => {
@@ -40,13 +41,13 @@ md.checkAccountNameUnique,
   // DO YOUR MAGIC
 });
 
-router.delete('/:id', md.checkAccountId, (req, res, next) => {
+router.delete('/:id', md.checkAccountId, async (req, res, next) => {
   try {
-
+    await Account.deleteById(req.params.id)
+    res.json(req.account)
   } catch (err) {
     next(err)
   }
-  // DO YOUR MAGIC
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line
